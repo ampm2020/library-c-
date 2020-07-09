@@ -1,0 +1,25 @@
+/*
+文字列中の小文字を大文字にする。
+*/
+
+struct ToUpper {
+    char operator()(char c) { return toupper(c); }
+};
+
+transform(all(s),s.begin(), ToUpper());
+
+/*
+大文字→小文字
+*/
+
+struct ToLower {
+    char operator()(char c) { return tolower(c); }
+};
+
+transform(all(s),s.begin(), ToLower());
+
+
+
+
+//出典
+http://stlalv.la.coocan.jp/transform.html

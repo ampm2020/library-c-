@@ -1,0 +1,10 @@
+    //numのi桁目(0,1,...,n-1)の数をmodに取り出す
+
+      int num = i;
+    for(int i = 0; num > 0; i++){
+      int mod = num % 10;
+      /*
+        条件式
+      */
+      num /= 10;
+    }

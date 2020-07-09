@@ -1,0 +1,4 @@
+distance(iter a, iter b)
+イテレータbからイテレータaを引いた値を求める。
+int index = distance(v.begin(), iter)
+のように使う

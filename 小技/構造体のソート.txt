@@ -1,0 +1,9 @@
+struct data_t {
+    int num;
+
+        bool operator<(const data_t& another) const {
+        return num < another.num;
+    }
+};
+
+//operator関数でソート可能にしたら、sort関数でソートする。

@@ -1,0 +1,35 @@
+/*
+素因数分解。素因数とその個数をpair配列で返す
+例：12 -> {(2,2),(3,1)}
+*/
+
+vector<pair<long long, long long>> prime_factorize(long long N) {
+    vector<pair<long long, long long> > res;
+    for (long long a = 2; a * a <= N; ++a) {
+        if (N % a != 0) continue;
+        long long ex = 0; // 指数
+
+        while (N % a == 0) {
+            ++ex;
+            N /= a;
+        }
+        res.push_back({a, ex});
+    }
+    if (N != 1) res.push_back({N, 1});
+    return res;
+}
+
+
+//オイラー関数φ（互いに素である数）の個数を求める
+//公式：φ(N)=N(1−1p1)(1−1p2)…(1−1pK)
+int main() {
+    long long N;
+    cin >> N;
+    const auto &pf = prime_factorize(N);
+    long long res = N;
+    for (auto p : pf) {
+        res *= (p.first - 1);
+        res /= p.first;
+    }
+    cout << res << endl;
+}

@@ -1,0 +1,13 @@
+優先度付きキューの宣言
+
+変数の定義方法がやや特殊なので、書いておきます。以下のように、最も小さい値を取り出したい場合は greater、最も大きい値を取り出したい場合は less を使います。
+
+
+// int 型の要素を持ち、最も小さい値を取り出す形の priority_queue を定義する場合
+priority_queue<int, vector<int>, greater<int>> Q1;
+
+// double 型の要素を持ち、最も小さい値を取り出す形の priority_queue を定義する場合
+priority_queue<double, vector<double>, greater<double>> Q2;
+
+// int 型の要素を持ち、最も大きい値を取り出す形の priority_queue を定義する場合
+priority_queue<int, vector<int>, less<int>> Q3;

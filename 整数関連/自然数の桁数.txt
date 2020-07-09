@@ -1,0 +1,9 @@
+//自然数nの桁数を返す
+int digit(ll n){
+  int res = 0;
+  while(n>0){
+    n /= 10;
+    res++;
+  }
+  return res;
+}

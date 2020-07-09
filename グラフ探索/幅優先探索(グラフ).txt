@@ -1,0 +1,20 @@
+   int n, m; cin >> n >> m;
+   vector<vector<int>> G(n);
+   rep(i, m){
+       int a, b; cin >> a >> b; a--, b--;
+       G[a].push_back(b);
+       G[b].push_back(a);
+   }
+
+   vector<int> d(n, INF);
+   queue<int> que;
+   que.push(0); d[0] = 0;
+
+   while(!que.empty()){
+       int v = que.front(); que.pop();
+       for(auto e: G[v]){
+           if(d[e] != INF) continue;
+           d[e] = d[v] + 1;
+           que.push(e);
+       }
+   }

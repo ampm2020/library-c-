@@ -1,0 +1,4 @@
+    vector<int> array;
+    do {
+        //処理         
+    } while (next_permutation(all(array)));

@@ -1,0 +1,68 @@
+struct edge{ll to, cost;};
+struct graph{
+  ll V;
+  vector<vector<edge> > G;
+  vector<ll> d;
+
+  graph(ll n){
+    init(n);
+  }
+
+  void init(ll n){
+    V = n;
+    G.resize(V);
+    d.resize(V);
+    rep(i,V){
+      d[i] = LINF;
+    }
+  }
+
+  void add_edge(ll s, ll t, ll cost){
+    edge e;
+    e.to = t, e.cost = cost;
+    G[s].push_back(e);
+  }
+
+  void dijkstra(ll s){
+    rep(i,V){
+      d[i] = LINF;
+    }
+    d[s] = 0;
+    priority_queue<pll,vector<pll>, greater<pll> > que;
+    que.push(pll(0,s));
+    while(!que.empty()){
+      pll p = que.top(); que.pop();
+      ll v = p.second;
+      if(d[v]<p.first) continue;
+      for(auto e : G[v]){
+        if(d[e.to]>d[v]+e.cost){
+          d[e.to] = d[v]+e.cost;
+          que.push(pll(d[e.to],e.to));
+        }
+      }
+    }
+  }
+};
+
+
+/* 使い方
+graph g(n):頂点ｎのグラフを作る
+g.add_edge(a, b, cost)a->b, costの辺を追加
+g.dijkstra(s)頂点sからダイクストラする
+int dist = g.d[i] 最短距離を得る
+
+このサイトからパk..参考にしました
+https://nexusuica.hatenablog.jp/entry/2018/08/14/114524
+
+テストケース
+0->5まで最短距離6, 経路0-1-3-4-5
+6 8
+1 2 1
+1 3 3
+2 4 2
+3 4 4
+2 5 4
+4 5 1
+4 6 5
+5 6 2
+*/

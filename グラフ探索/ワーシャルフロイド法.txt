@@ -1,0 +1,15 @@
+void warshall_floyd(int n) {
+  for (int k = 0; k < n; k++){       // 経由する頂点
+    for (int i = 0; i < n; i++) {    // 始点
+      for (int j = 0; j < n; j++) {  // 終点
+        d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+      }
+    }
+  }
+}
+
+//
+ワーシャルフロイド法
+各点間の最短距離を求められる。計算量はO(n^3)
+使う時はあらかじめ配列d[n][n]をINFで初期化しておく。
+　この時、d[i][i]=0とする。

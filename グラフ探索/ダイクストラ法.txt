@@ -1,0 +1,58 @@
+struct edge{ll to, cost;};
+struct graph{
+  ll V;
+  vector<vector<edge> > G;
+  vector<ll> d;
+  vector<ll> prev;
+
+  graph(ll n){
+    init(n);
+  }
+
+  void init(ll n){
+    V = n;
+    G.resize(V);
+    d.resize(V);
+    rep(i,V){
+      d[i] = LINF;
+    }
+  }
+
+  void add_edge(ll s, ll t, ll cost){
+    edge e;
+    e.to = t, e.cost = cost;
+    G[s].push_back(e);
+  }
+
+  void dijkstra(ll s){
+    rep(i,V){
+      d[i] = LINF;
+    }
+    d[s] = 0;
+    priority_queue<pll,vector<pll>, greater<pll> > que;
+    que.push(pll(0,s)); //[その頂点への最短コスト候補、頂点番号]
+    prev.assign(V, -1);
+    while(!que.empty()){
+      pll p = que.top(); que.pop();
+      ll v = p.second;
+      if(d[v]<p.first) continue;
+      for(auto e : G[v]){
+        if(d[e.to]>d[v]+e.cost){
+          d[e.to] = d[v]+e.cost;
+          prev[e.to] = v;
+          que.push(pll(d[e.to],e.to));
+        }
+      }
+    }
+  }
+
+  vector<int> get_path(int t){ //頂点tへの最短路
+    vector<int> path;
+    for(; t != -1;t=prev[t]){
+        path.push_back(t);
+    }
+
+    reverse(path.begin(), path.end());
+    return path;
+  }
+};

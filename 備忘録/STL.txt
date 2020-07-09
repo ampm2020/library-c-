@@ -1,0 +1,8 @@
+数え上げを行うSTL
+
+string.find(a)
+string中でaが最初に出てくる先頭のインデックスを数値として返す。
+見つからなかった場合、string.nopsを返す。
+
+count(all(), a)
+stringやvectorの中からaの個数を返す。

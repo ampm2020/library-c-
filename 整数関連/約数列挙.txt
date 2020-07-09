@@ -1,0 +1,15 @@
+
+//約数列挙
+vector<long long> enum_divisors(long long N) {
+    vector<long long> res;
+    for (long long i = 1; i * i <= N; ++i) {
+        if (N % i == 0) {
+            res.push_back(i);
+            if (N/i != i) res.push_back(N/i);
+        }
+    }
+    sort(res.begin(), res.end());
+    return res;
+}
+
+//Nを素因数分解し、各素因数を列挙している。

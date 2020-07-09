@@ -1,0 +1,5 @@
+struct edge{
+    int from, to ,cost, id;
+    edge(int f, int t, int c, int i):
+    from(f), to(t), cost(c), id(i) {}
+};
