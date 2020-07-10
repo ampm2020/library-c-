@@ -3,6 +3,7 @@ https://drken1215.hatenablog.com/entry/2020/01/22/071000
 /*
 modint: mod計算を int を扱えるように扱える構造体
 mint 変数名 、でint型のように使用する。
+※未整備
 */
 
 template<int MOD> struct Fp {

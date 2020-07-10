@@ -1,3 +1,5 @@
+//バグ有？使わない方がいい
+
 struct edge{ll to, cost;};
 struct graph{
   ll V;
