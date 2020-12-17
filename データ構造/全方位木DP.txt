@@ -1,0 +1,86 @@
+struct Rerooting{
+    /* start 問題ごとに書き換え */
+    struct DP{
+        ll dp;
+        DP(ll dp_) : dp(dp_){}
+    };
+    const DP identity = DP(-1); //単位元
+    function<DP(DP, DP)> merge = [](DP dp_cum, DP d) -> DP{
+        return DP(max(dp_cum.dp, d.dp));
+    };
+    function<DP(DP)> add_root = [](DP d) -> DP {
+        return DP(d.dp + 1);
+    };
+    /* end 問題ごとに書き換え */
+
+    struct Edge{
+        int to;
+    };
+    using Graph = vector<vector<Edge>>;
+
+    vector<vector<DP>> dp; //dp[v][i]: vから出るi番目の有効辺に対する部分木のDP
+    vector<DP> ans;        //ans[v]: 頂点vを根とする木の答え
+    Graph G;
+
+    Rerooting(int N) : G(N){
+        dp.resize(N);
+        ans.assign(N, identity);
+    }
+
+    void add_edge(int a, int b){
+        G[a].push_back({b});
+    }
+    void build(){
+        dfs(0); //普通に木DP
+        bfs(0, identity); //残りの部分木に対応するDPを計算
+    }
+
+    DP dfs(int v, int p = -1){
+        DP dp_cum = identity;
+        int deg = G[v].size();
+        dp[v] = vector<DP>(deg, identity);
+        for(int i=0; i<deg; i++){
+            int u = G[v][i].to;
+            if(u==p)continue;//親
+            dp[v][i] = dfs(u, v);
+            dp_cum = merge(dp_cum, dp[v][i]);
+        }
+        return add_root(dp_cum);
+    }
+    void bfs(int v, const DP& dp_p, int p=-1){
+        int deg = G[v].size();
+        for(int i=0; i<deg; i++){
+            if(G[v][i].to == p)dp[v][i] = dp_p;
+        }
+        vector<DP> dp_l(deg+1, identity), dp_r(deg+1, identity);
+        for(int i=0; i<deg; i++){
+            dp_l[i+1] = merge(dp_l[i], dp[v][i]);
+        }
+        for(int i=deg-1; i>=0; i--){
+            dp_r[i] = merge(dp_r[i+1], dp[v][i]);
+        }
+
+        ans[v] = add_root(dp_l[deg]);
+
+        for(int i=0; i<deg; i++){
+            int u = G[v][i].to;
+            if(u==p)continue;
+            bfs(u, add_root(merge(dp_l[i], dp_r[i+1])), v);
+        }
+    }
+};
+
+
+-----------------------------------------------
+全方位木DP　
+https://algo-logic.info/tree-dp/（パクり元：アルゴリズムロジック様）
+
+すべての頂点から、最も遠い距離をO(n)で求められる。
+
+使い方
+Rerooting reroot(n); //宣言
+for: reroot.add_edge(a,b) //辺の追加
+reroot.build(); //実行
+ans[i]に解答が入っているので出力
+
+普通の木DPとして使いたい場合はdfsを実行する

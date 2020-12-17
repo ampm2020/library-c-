@@ -1,15 +1,30 @@
-void warshall_floyd(int n) {
-  for (int k = 0; k < n; k++){       // 経由する頂点
-    for (int i = 0; i < n; i++) {    // 始点
-      for (int j = 0; j < n; j++) {  // 終点
-        d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
-      }
+//前処理
+ll dist[n][n];
+rep(i, n){
+    rep(j, n){
+        dist[i][j] = LINF;
     }
-  }
 }
 
+//辺の追加
+ll a,b,c; cin >> a >> b >> c;
+dist[a][b] = c;
+(dist[b][ac] = c;)
+
+//本計算
+for(int k=0; k<n; k++){       // 経由する頂点
+    for(int i=0; i<n; i++) {    // 始点
+        for(int j=0; j<n; j++) {  // 終点
+            chmin(dist[i][j], dist[i][k] + dist[k][j]);
+        }
+    }
+}
 //
 ワーシャルフロイド法
-各点間の最短距離を求められる。計算量はO(n^3)
-使う時はあらかじめ配列d[n][n]をINFで初期化しておく。
-　この時、d[i][i]=0とする。
+任意の2点間の最短距離をO(n^3)で求める。隣接行列表現を用いる。
+Nさえ十分に小さければ一度にすべての二点間の距離が求まるのが強み。
+負の辺があっても問題ないが、負閉路については不明。
+
+
+例題
+https://atcoder.jp/contests/abc143/tasks/abc143_e

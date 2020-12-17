@@ -1,0 +1,12 @@
+ll digit(ll num, ll base=10){
+  if(num == 0) return 1;
+  //if(num < 0)num = -num;
+
+  ll ret = 0;
+  while(num>0){ num /=  base; ret++;}
+  return ret;
+}
+
+//
+整数numをbase進法表記にした時の桁数を返す。デフォは10進数。
+

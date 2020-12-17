@@ -1,0 +1,53 @@
+struct Rerooting{
+    /* start 問題ごとに書き換え */
+    struct DP{
+        ll dp;
+        DP(ll dp_) : dp(dp_){}
+    };
+    const DP identity = DP(-1); //単位元
+    function<DP(DP, DP)> merge = [](DP dp_cum, DP d) -> DP{
+        return DP(max(dp_cum.dp, d.dp));
+    };
+    function<DP(DP)> add_root = [](DP d) -> DP {
+        return DP(d.dp + 1);
+    };
+    /* end 問題ごとに書き換え */
+
+    struct Edge{
+        int to;
+    };
+    using Graph = vector<vector<Edge>>;
+
+    vector<vector<DP>> dp; //dp[v][i]: vから出るi番目の有効辺に対する部分木のDP
+    vector<DP> ans;        //ans[v]: 頂点vを根とする木の答え
+    Graph G;
+
+    Rerooting(int N) : G(N){
+        dp.resize(N);
+        ans.assign(N, identity);
+    }
+
+    void add_edge(int a, int b){
+        G[a].push_back({b});
+    }
+    void build(){
+        dfs(0); //普通に木DP
+    }
+
+    DP dfs(int v, int p = -1){
+        DP dp_cum = identity;
+        int deg = G[v].size();
+        dp[v] = vector<DP>(deg, identity);
+        for(int i=0; i<deg; i++){
+            int u = G[v][i].to;
+            if(u==p)continue;//親
+            dp[v][i] = dfs(u, v);
+            dp_cum = merge(dp_cum, dp[v][i]);
+        }
+        return add_root(dp_cum);
+    }
+};
+
+
+-----------------------------------------------
+単なる木DP

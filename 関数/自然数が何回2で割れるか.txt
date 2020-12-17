@@ -1,0 +1,21 @@
+//自然数mが何回2で割れるかを返す。
+int devide_two(int num){
+    if(num<=0)return 0;
+    
+    int ret = 0;
+    while(num%2 == 0){
+        num /= 2;
+        ret++;
+    }
+    return ret;
+}
+
+使い所
+bitDPで
+for(int i=2; i<k; i*=2)
+のように2の階乗で位置をループさせるときに
+iを変換して配列の添え字に使えるようにする
+
+2で割れない = 0番目の位置
+2でn回割れる = n番目の位置
+を表す

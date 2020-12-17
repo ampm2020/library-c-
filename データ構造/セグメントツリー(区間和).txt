@@ -1,0 +1,30 @@
+//セグメントツリー(区間和)
+const int mx_n = 1<<20;
+int siz; ll dat[2*mx_n-1];
+
+void init(int num){
+  siz = 1;
+  while(siz < num) siz *= 2;
+  rep(i, 2*siz-1) dat[i] = 0;
+}
+//k番目の値をaに書き換える
+void update(int k, ll a){
+  k += siz-1;
+  dat[k] = a;
+  while(k>0){
+    k = (k-1)/2;
+    dat[k] = dat[k*2+1] + dat[k*2+2];
+  }
+}
+
+//区間[a, b)の和を求める。query(a, b, 0, 0,siz)
+ll query(int a, int b, int k, int l, int r){
+  if(r <= a || b <= l) return 0;
+
+  if(a <= l && r <= b) return dat[k];
+  else{
+    ll vl = query(a, b, k*2+1, l, (l+r)/2);
+    ll vr = query(a, b, k*2+2, (l+r)/2, r);
+    return vl + vr;
+  }
+}

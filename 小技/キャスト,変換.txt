@@ -1,8 +1,0 @@
-【char->int】
-c-'0' または c-'a' など
-【string → int】
-  int n = stoi(s)
-【int → str】
-string s = to_String(int)
-【大文字⇔小文字】
-'A'+ 32 -> 'a'

@@ -1,0 +1,24 @@
+ll modpow(ll num, ll a, ll mod=1000000007){
+    ll ret = 1;
+    while(a>0){
+        if(a&1)ret = ret * num % mod;
+        num = num * num % mod;
+        a /= 2;
+    }
+    return ret;
+}
+
+ll power(ll num, ll a){
+    ll ret = 1;
+    while(a>0){
+        if(a&1)ret = ret * num;
+        num = num * num;
+        a /= 2;
+    }
+    return ret;
+}
+
+//
+高速に累乗を求める関数。
+modpow:余りを取る
+power:余りを取らない

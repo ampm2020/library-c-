@@ -1,0 +1,12 @@
+ll LCM(ll a, ll b){
+    return a / __gcd(a, b) * b;
+}
+
+template<class T>
+ll sequenceLCM(T vec){
+    ll ret = 1;
+    for(auto v: vec){
+        ret = LCM(ret, v);
+    }
+    return ret;
+}
