@@ -1,0 +1,88 @@
+------------------------------
+巡回セールスマン問題（bitDP)
+始点からすべての経路を辿って始点に戻ったときの最短距離を求める。
+フラグの集合をdpで管理するのが特徴。
+2^20≒10^6なので、頂点数が20以下の場合に使える。
+
+考察
+「どの都市を訪れたか」を2進数で管理して、動的計画法で解く。
+dp[s][v]: 訪れた都市がs, 現在地がvであるときの最小コスト
+s: 訪れた都市の集合
+v: 最後に訪れた都市
+
+実装では再帰、for文どちらでも書ける。再帰の方がやや楽か。
+
+①再帰
+rec(s, v):
+  if メモ化済み: 
+    return dp[s][v]
+  if 全都市を訪問済み: 
+    return dp[s][v] = dist(v,0) //始点へのコストをメモ
+
+  for(i, n):
+    if bit & (1<<i) == 0: //未訪問地点ならmerge
+      chmin(dp[s][v], rec(s+(1<<i), i) + dist(v, i)
+
+  return dp[s][v]
+
+②for文
+res=LINF、dp[1][0]=0 //初期化
+for s=1 ~ 1<<n:
+  for v=0 ~ n:
+    if dp[s][v] == 初期値:  continue
+    if 未訪問:
+      dp[ns][nv]をmerge
+    if ns == mx_n // 全都市訪問済み
+      resを更新
+    
+
+----------------------------------------------------
+ABC180E 実装①
+int n, mx_n;
+ll X[20],Y[20],Z[20];
+ll dp[(1<<17)][20];
+
+ll dist(int from, int to){
+    return abs(X[to]-X[from]) + abs(Y[to]-Y[from]) + max(0LL, Z[to]-Z[from]);
+}
+
+ll rec(int bit, int v){
+    if(dp[bit][v]!=LINF)return dp[bit][v];
+    
+    if(bit==mx_n){
+        return dp[bit][v] = dist(v,0);
+    }
+    rep(i, n){
+        if((bit & 1<<i)==0){
+            chmin(dp[bit][v], rec(bit+(1<<i),i)+dist(v,i));
+        }
+    }
+    return dp[bit][v];
+}
+
+----------------------------------------------
+実装②
+
+    int n; cin >> n;
+    rep(i, n)cin >> X[i] >> Y[i] >> Z[i];
+ 
+    vector<vector<ll>> dp(1<<n, vector<ll>(n, LINF));
+    ll res = LINF;
+    dp[1][0] = 0;
+ 
+    for(int s=1; s<(1<<n); s++){
+        for(int v=0; v<n; v++){
+            if(dp[s][v]==LINF)continue;
+            for(int nv=0; nv<n; nv++){
+                int ns = s + (1<<nv);
+                if((s & (1 << nv)) == 0){
+                    chmin(dp[ns][nv], dp[s][v] + calc_cost(v, nv));
+                }
+                if(ns == (1<<n)-1){
+                    chmin(res, dp[ns][nv] + calc_cost(nv, 0));
+                }
+            }    
+        }
+    }
+    cout << res << ln;
+ 

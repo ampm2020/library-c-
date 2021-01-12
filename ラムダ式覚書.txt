@@ -1,0 +1,24 @@
+ラムダ式覚書
+
+利点
+グローバル関数を使わなくても関数が使えるし、使いまわせる
+
+・比較関数への適用
+sort(all(ids), [&](int i, int j){
+    return A[i]*2+B[i] > A[j]*2+B[j];
+});
+こんな風に、sortの比較関数にラムダ式を書くことで貪欲ソートが可能。
+
+・再帰
+    auto dfs = [&](auto self, int v, int p) -> void{
+        par[v] = p;
+        if(p != -1) add[v] += add[p];
+        for(auto e:G[v]){
+            if(e==p)continue; //木の全探索は親の逆流だけ防げば良い
+            self(self, e, v);
+        }
+    };
+    dfs(dfs, root, -1);
+
+第一引数selfで自身を呼び出すことができる。
+原理はわからん。

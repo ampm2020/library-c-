@@ -1,0 +1,56 @@
+--------------------------------------
+クラスカル法
+最小全域木の重みを求める。
+全域木：重み付き無向グラフのうち、すべての頂点を１度通る木のこと。
+
+方法
+貪欲法。辺の重みが小さい順に見ていき、サイクルを作らないように足していく。
+
+実装
+------------------------------------------
+(※Union-Find木の構造体は省略)
+
+
+using Edge = pair<int, pair<int, int>>; //{w(e), {u, v}}
+
+int main(){
+    int n, m; cin >> n >> m;
+    vector<Edge> edges(m);
+    rep(i, m){
+        int a,b,c; cin >> a >> b >> c; a--, b--;
+        edges[i] = Edge(c, {a,b});
+    }
+    sort(all(edges));
+
+    ll res = 0;
+    UnionFind uf(n);
+    rep(i, m){
+        int w = edges[i].first;
+        int u = edges[i].second.first;
+        int v = edges[i].second.second;
+
+        if(uf.issame(u, v))continue;
+
+        res += w;
+        uf.merge(u, v);
+    }
+    cout << res << ln;
+}  
+-------------------------------------
+テストケース
+
+8 12
+1 2 9
+1 3 2
+1 4 4
+3 4 3
+2 5 5
+3 5 7
+5 6 6
+4 6 8
+5 7 3
+6 7 5
+7 8 6
+2 8 10
+解：31
+「データ構造とアルゴリズム」p272

@@ -1,0 +1,24 @@
+覚書
+忘れそうなことを書いておく
+
+・関数
+【accumulate(begin, end, 0LL)】
+範囲内の値を合計して返す。
+実は戻り値が第三引数に依存しているので結構使えるかもしれない。
+【fill(begin, end, x)】
+配列を特定の値で埋める。vectorは初期宣言で埋められるから要らんかも。
+【iota(begin, end, x)】
+配列をxから始まる交差の等差数列で埋める。
+
+・タプル
+3つ以上の要素を格納できる。
+宣言: tuple<int, int, int> t;
+追加: t.emplace.back(a,b,c);
+取得: get<i>(t)
+
+・C++17の適用
+【g++ t.cpp -std=c++1z】
+一例
+vector<pll> P;
+for(auto [x,y]: P)
+のように、pairを[]でまとめて受け取ることができる。地味に便利

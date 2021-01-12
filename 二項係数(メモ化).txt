@@ -1,4 +1,4 @@
-const int MAX = 2100000;
+const int MAX = 2000000 + 100; //1e6*2
 
 long long fac[MAX], finv[MAX], inv[MAX];
 void COMinit(){

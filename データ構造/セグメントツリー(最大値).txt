@@ -1,0 +1,30 @@
+const int mx_n = 1<<20;
+int siz, dat[2*mx_n-1];
+
+void init(int num){
+  siz = 1;
+  while(siz < num) siz *= 2;
+  rep(i, 2*siz-1) dat[i] = -INF;
+}
+
+//k番目の値をaに書き換える
+void update(int k, int a){
+  k += siz-1;
+  dat[k] = a;
+  while(k>0){
+    k = (k-1)/2;
+    dat[k] = max(dat[k*2+1], dat[k*2+2]);
+  }
+}
+
+//区間[a, b)の最大値を求める。宣言:query(a, b, 0, 0, siz)
+int query(int a, int b, int k, int l, int r){
+  if(r <= a || b <= l) return -INF;
+
+  if(a <= l && r <= b) return dat[k];
+  else{
+    int vl = query(a, b, k*2+1, l, (l+r)/2);
+    int vr = query(a, b, k*2+2, (l+r)/2, r);
+    return max(vl, vr);
+  }
+}

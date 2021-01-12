@@ -1,0 +1,72 @@
+------------------------------------------------
+二部グラフ判定
+与えられた無向グラフが二部グラフかどうかを判定する。
+二部グラフ：隣り合う頂点が必ず違う色で塗り分けられるグラフ
+
+二部グラフの特徴
+奇数長のサイクル(閉路)を含まない
+
+
+------------------------------------------------
+二部グラフ判定の実装
+dfsで実装する。
+呼び出されたら自身を指定された色で塗る。
+その頂点から隣接する頂点について、既に同色で塗られているものがあればfalseを返す。
+グラフは連結とは限らないので、すべての頂点を始点として走査する。
+
+vector<vector<int>> G;
+vector<int> color;
+
+bool dfs(int v, int cur){
+    color[v] = cur;
+    for(auto nv:G[v]){
+        if(color[nv]!=-1){
+            if(color[nv]==cur)return false;
+            continue;
+        }
+        if(!dfs(nv, 1-cur))return false;
+    }
+    return true;
+}
+
+int main(){
+    int n, m; cin >> n >> m;
+    G.resize(n); 
+    rep(i, m){
+        int a,b; cin >> a >> b; a--, b--;
+        G[a].push_back(b);
+        G[b].push_back(a);
+    }
+    color.assign(n, -1);
+    rep(i, n){
+        if(color[i]!=-1)continue;
+        if(!dfs(i,0)){
+            cout << "No" << ln;
+            return 0;
+        }
+    }
+    cout << "Yes" << ln;
+} 
+
+【テストケース】
+・偶数長の閉路を含む
+4 4
+1 2
+2 3
+3 4
+4 1
+・閉路を含まない
+5 4
+1 2
+1 3
+2 4
+2 5
+・奇数長の閉路を含む
+4 4
+1 2
+2 3
+2 4
+3 4
+------------------------------------------------
+参考
+https://qiita.com/drken/items/a803d4fc4a727e02f7ba#4-3-%E4%BA%8C%E9%83%A8%E3%82%B0%E3%83%A9%E3%83%95%E5%88%A4%E5%AE%9A
